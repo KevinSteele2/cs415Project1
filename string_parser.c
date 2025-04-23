@@ -69,7 +69,7 @@ command_line str_filler (char* buf, const char* delim)
 	int j = 0;
 	while (buf[j] != '\0'){
 		if (buf[j] == '\n'){
-			buf[j] == '\0';
+			buf[j] = '\0';
 			break;
 		}
 		j++;

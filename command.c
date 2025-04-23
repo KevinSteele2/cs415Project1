@@ -59,7 +59,7 @@ void changeDir(char *dirName){
 
 void copyFile(char *sourcePath, char *destinationPath){
     int srcFd = open(sourcePath, O_RDONLY);
-    if(srcFD == -1){
+    if(srcFd == -1){
         perror("Error opening source file");
         return;
     }

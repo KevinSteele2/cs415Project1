@@ -25,9 +25,9 @@ int main(int argc, char *argv[]) {
                 } else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
                 } else if (strncmp(command, "mkdir", 5) == 0) {
-                    makeDir(command + 6);
+                    makeDir(command + 5);
                 } else if (strncmp(command, "cd", 2) == 0) {
-                    changeDir(command + 3);
+                    changeDir(command + 2);
                 } else if (strncmp(command, "cp", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
@@ -45,9 +45,9 @@ int main(int argc, char *argv[]) {
                         fprintf(stderr, "Error: mv needs 2 arguments\n");
                     }
                 } else if (strncmp(command, "rm", 2) == 0) {
-                    deleteFile(command + 3);
+                    deleteFile(command + 2);
                 } else if (strncmp(command, "cat", 3) == 0) {
-                    displayFile(command + 4);
+                    displayFile(command + 3);
                 } else if (strcmp(command, "exit") == 0) {
                     free_command_line(&cmd);
                     free(line);
@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
                 } else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
                 } else if (strncmp(command, "mkdir", 5) == 0) {
-                    makeDir(command + 6);
+                    makeDir(command + 5);
                 } else if (strncmp(command, "cd", 2) == 0) {
-                    changeDir(command + 3);
+                    changeDir(command + 2);
                 } else if (strncmp(command, "cp", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
                         fprintf(stdout, "Error: mv needs 2 arguments\n");
                     }
                 } else if (strncmp(command, "rm", 2) == 0) {
-                    deleteFile(command + 3);
+                    deleteFile(command + 2);
                 } else if (strncmp(command, "cat", 3) == 0) {
                     displayFile(command + 3);
                 } else {

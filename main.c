@@ -95,30 +95,30 @@ int main(int argc, char *argv[]) {
                     listDir();
                 } else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
-                } else if (strncmp(command, "mkdir", 6) == 0) {
+                } else if (strncmp(command, "mkdir", 5) == 0) {
                     makeDir(command + 6);
-                } else if (strncmp(command, "cd", 3) == 0) {
+                } else if (strncmp(command, "cd", 2) == 0) {
                     changeDir(command + 3);
-                } else if (strncmp(command, "cp", 3) == 0) {
-                    char *src = strtok(command + 3, " ");
+                } else if (strncmp(command, "cp", 2) == 0) {
+                    char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         copyFile(src, dest);
                     } else {
                         fprintf(stdout, "Error: cp needs 2 arguments\n");
                     }
-                } else if (strncmp(command, "mv", 3) == 0) {
-                    char *src = strtok(command + 3, " ");
+                } else if (strncmp(command, "mv", 2) == 0) {
+                    char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         moveFile(src, dest);
                     } else {
                         fprintf(stdout, "Error: mv needs 2 arguments\n");
                     }
-                } else if (strncmp(command, "rm", 3) == 0) {
+                } else if (strncmp(command, "rm", 2) == 0) {
                     deleteFile(command + 3);
-                } else if (strncmp(command, "cat", 4) == 0) {
-                    displayFile(command + 4);
+                } else if (strncmp(command, "cat", 3) == 0) {
+                    displayFile(command + 3);
                 } else {
                     fprintf(stdout, "Error: unrecognized command '%s'\n", command);
                 }

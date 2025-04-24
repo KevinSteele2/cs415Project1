@@ -34,6 +34,8 @@ void showCurrentDir(){
     }
 }
 
+
+// FIX MAKEDIR!!!
 void makeDir(char *dirName){
     while(*dirName == ' '){
         dirName++;

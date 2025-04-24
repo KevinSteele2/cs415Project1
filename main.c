@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
                     listDir();
                 } else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
-                } else if (strncmp(command, "mkdir", 6) == 0) {
+                } else if (strncmp(command, "mkdir", 5) == 0) {
                     makeDir(command + 6);
                 } else if (strncmp(command, "cd", 3) == 0) {
                     changeDir(command + 3);

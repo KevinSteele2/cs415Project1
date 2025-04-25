@@ -97,8 +97,7 @@ int main(int argc, char *argv[]) {
                     free_command_line(&cmd);
                     free(line);
                     return EXIT_SUCCESS;
-                } 
-                else if (strcmp(command, "pwd") == 0) {
+                } else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
                 } else if (strncmp(command, "mkdir", 5) == 0) {
                     makeDir(command + 5);

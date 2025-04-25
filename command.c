@@ -34,8 +34,6 @@ void showCurrentDir(){
     }
 }
 
-
-// FIX MAKEDIR!!!
 void makeDir(char *dirName){
     while(*dirName == ' '){
         dirName++;
@@ -88,14 +86,37 @@ void copyFile(char *sourcePath, char *destinationPath){
     close(destFd);
 }
 
-void moveFile(char *sourcePath, char *destinationPath){
-    if (rename(sourcePath, destinationPath) == -1) {
-        perror("Error renaming file, attempting copy and delete");
+// Fix moveFile, also check to make sure cp can move files to just a dir
+void moveFile(char *sourcePath, char *destinationPath) {
+    struct stat destStat;
 
-        // Fallback: Copy and delete
-        copyFile(sourcePath, destinationPath);
-        if (unlink(sourcePath) == -1) {
-            perror("Error deleting source file after move");
+    if (stat(destinationPath, &destStat) == 0 && S_ISDIR(destStat.st_mode)) {
+        char *fileName = strrchr(sourcePath, '/');
+        if (fileName == NULL) {
+            fileName = sourcePath; 
+        } else {
+            fileName++; 
+        }
+
+        char newDestPath[1024];
+        snprintf(newDestPath, sizeof(newDestPath), "%s/%s", destinationPath, fileName);
+
+        if (rename(sourcePath, newDestPath) == -1) {
+            perror("Error renaming file, attempting copy and delete");
+
+            copyFile(sourcePath, newDestPath);
+            if (unlink(sourcePath) == -1) {
+                perror("Error deleting source file after move");
+            }
+        }
+    } else {
+        if (rename(sourcePath, destinationPath) == -1) {
+            perror("Error renaming file, attempting copy and delete");
+
+            copyFile(sourcePath, destinationPath);
+            if (unlink(sourcePath) == -1) {
+                perror("Error deleting source file after move");
+            }
         }
     }
 }

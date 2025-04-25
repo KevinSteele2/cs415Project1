@@ -28,7 +28,8 @@ void listDir(){
 void showCurrentDir(){
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!=NULL){
-        printf("%s\n", cwd);
+        write(STDOUT_FILENO, cwd, strlen(cwd));
+        write(STDOUT_FILENO, "\n", 1);
     }
     else{
         perror("Error getting current directory");

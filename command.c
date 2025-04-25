@@ -50,7 +50,8 @@ void changeDir(char *dirName){
         dirName++;
     }
     if(*dirName=='\0'){
-        fprintf(stderr, "Error: Directory name can't be empty \n");
+        char *error = "Error: Directory name can't be empty \n";
+        write(STDERR_FILENO, error, strlen(error));
         return;
     }
     if(chdir(dirName)==-1){
@@ -145,7 +146,8 @@ void deleteFile(char *filename){
         filename++;
     }
     if(*filename == '\0'){
-        fprintf(stderr, "Error: Filename cannot be empty \n");
+        char *error = "Error: Filename cannot be empty \n";
+        write(STDERR_FILENO, error, strlen(error));
         return;
     }
     if(unlink(filename) == -1){

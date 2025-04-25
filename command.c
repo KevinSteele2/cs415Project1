@@ -152,6 +152,9 @@ void deleteFile(char *filename){
 }
 
 void displayFile(char *filename){
+    while (*filename == ' '){
+        filename++;
+    }
     int fd = open(filename, O_RDONLY);
     if (fd == -1){
         perror("Error opening file");

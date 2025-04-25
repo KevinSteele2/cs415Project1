@@ -19,7 +19,6 @@ int main(int argc, char *argv[]) {
             command_line cmd = str_filler(line, ";");
             for (int i = 0; i < cmd.num_token; i++) {
                 char *command = cmd.command_list[i];
-                trimSpaces(command);
                 if (strcmp(command, "ls") == 0) {
                     listDir();
                 } else if (strcmp(command, "pwd") == 0) {
@@ -89,7 +88,6 @@ int main(int argc, char *argv[]) {
             command_line cmd = str_filler(line, ";");
             for (int i = 0; i < cmd.num_token; i++) {
                 char *command = cmd.command_list[i];
-                trimSpaces(command);
 
                 if (strcmp(command, "ls") == 0) {
                     listDir();

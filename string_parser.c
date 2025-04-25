@@ -101,16 +101,6 @@ command_line str_filler (char* buf, const char* delim)
 
 }
 
-void trimSpaces(char *str) {
-    char *end;
-    while (*str == ' ') str++;
-
-    end = str + strlen(str) - 1;
-    while (end > str && *end == ' ') end--;
-
-    *(end + 1) = '\0';
-}
-
 void free_command_line(command_line* command)
 {
 	//TODO：

@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
                     if (src && dest) {
                         copyFile(src, dest);
                     } else {
-                        fprintf(stderr, "Error: cp needs 2 arguments\n");
+                        fprintf(stderr, "Error: cp needs 2 args\n");
                     }
                 } else if (strncmp(command, "mv", 2) == 0) {
                     char *src = strtok(command + 2, " ");
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
                     if (src && dest) {
                         moveFile(src, dest);
                     } else {
-                        fprintf(stderr, "Error: mv needs 2 arguments\n");
+                        fprintf(stderr, "Error: mv needs 2 args\n");
                     }
                 } else if (strncmp(command, "rm", 2) == 0) {
                     deleteFile(command + 2);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         free(line);
     } else if (argc == 3 && strcmp(argv[1], "-f") == 0) {
         // File mode
-        printf("Starting pseudo-shell in file mode...\n");
+        printf("Starting pseudo-shell in file mode\n");
         FILE *inputFile = fopen(argv[2], "r");
         if (!inputFile) {
             perror("Error opening file");
@@ -76,7 +76,6 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-        // Redirect stdout to outputFile
         if (freopen("output.txt", "w", stdout) == NULL) {
             perror("Error redirecting stdout");
             fclose(inputFile);
@@ -133,7 +132,6 @@ int main(int argc, char *argv[]) {
         free(line);
         fclose(inputFile);
 
-        // Restore stdout to its original state
         freopen("/dev/tty", "w", stdout);
         fclose(outputFile);
 

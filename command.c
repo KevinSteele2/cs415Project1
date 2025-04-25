@@ -19,7 +19,8 @@ void listDir(){
 
     struct dirent *entry;
     while ((entry = readdir(dir)) != NULL){
-        printf("%s\n", entry->d_name);
+        write(STDOUT_FILENO, entry->d_name, strlen(entry->d_name));
+        write(STDOUT_FILENO, "\n", 1);
     }
     closedir(dir);
 } 

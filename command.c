@@ -38,7 +38,6 @@ void makeDir(char *dirName){
     while(*dirName == ' '){
         dirName++;
     }
-    // int permissions = (S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
     if(mkdir(dirName, 0777) == -1){
         perror("error creating directory");
     }
@@ -57,21 +56,38 @@ void changeDir(char *dirName){
     }
 }
 
-void copyFile(char *sourcePath, char *destinationPath){
+void copyFile(char *sourcePath, char *destinationPath) {
+    struct stat destStat;
+
+    if (stat(destinationPath, &destStat) == 0 && S_ISDIR(destStat.st_mode)) {
+        char *fileName = strrchr(sourcePath, '/');
+        if (fileName == NULL) {
+            fileName = sourcePath; 
+        } else {
+            fileName++; 
+        }
+
+        char newPath[1024];
+        snprintf(newPath, sizeof(newPath), "%s/%s", destinationPath, fileName);
+        destinationPath = newPath;
+    }
+
     int srcFd = open(sourcePath, O_RDONLY);
-    if(srcFd == -1){
+    if (srcFd == -1) {
         perror("Error opening source file");
         return;
     }
+
     int destFd = open(destinationPath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if(destFd == -1){
-        perror("error opening/creating destination file");
+    if (destFd == -1) {
+        perror("Error opening/creating destination file");
         close(srcFd);
         return;
     }
+
     char buffer[1024];
     ssize_t bytesRead;
-    while((bytesRead = read(srcFd, buffer, sizeof(buffer))) > 0) {
+    while ((bytesRead = read(srcFd, buffer, sizeof(buffer))) > 0) {
         if (write(destFd, buffer, bytesRead) == -1) {
             perror("Error writing to destination file");
             close(srcFd);
@@ -79,14 +95,15 @@ void copyFile(char *sourcePath, char *destinationPath){
             return;
         }
     }
-    if(bytesRead==-1){
+
+    if (bytesRead == -1) {
         perror("Error reading from source file");
     }
+
     close(srcFd);
     close(destFd);
-}
+} 
 
-// Fix moveFile, also check to make sure cp can move files to just a dir
 void moveFile(char *sourcePath, char *destinationPath) {
     struct stat destStat;
 
@@ -98,13 +115,13 @@ void moveFile(char *sourcePath, char *destinationPath) {
             fileName++; 
         }
 
-        char newDestPath[1024];
-        snprintf(newDestPath, sizeof(newDestPath), "%s/%s", destinationPath, fileName);
+        char newPath[1024];
+        snprintf(newPath, sizeof(newPath), "%s/%s", destinationPath, fileName);
 
-        if (rename(sourcePath, newDestPath) == -1) {
+        if (rename(sourcePath, newPath) == -1) {
             perror("Error renaming file, attempting copy and delete");
 
-            copyFile(sourcePath, newDestPath);
+            copyFile(sourcePath, newPath);
             if (unlink(sourcePath) == -1) {
                 perror("Error deleting source file after move");
             }

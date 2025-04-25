@@ -6,7 +6,6 @@
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
-        // Interactive mode
         printf("Starting pseudo-shell in interactive mode...\n");
         char *line = NULL;
         size_t len = 0;
@@ -14,7 +13,7 @@ int main(int argc, char *argv[]) {
         while (1) {
             printf(">>> ");
             if (getline(&line, &len, stdin) == -1) {
-                break; // Exit on EOF
+                break; 
             }
 
             command_line cmd = str_filler(line, ";");

@@ -87,7 +87,7 @@ void copyFile(char *sourcePath, char *destinationPath) {
         return;
     }
 
-    char buffer[1024];
+    char buffer[4096];
     ssize_t bytesRead;
     while ((bytesRead = read(srcFd, buffer, sizeof(buffer))) > 0) {
         if (write(destFd, buffer, bytesRead) == -1) {
@@ -162,7 +162,7 @@ void displayFile(char *filename){
         perror("Error opening file");
         return;
     }
-    char buffer[1024];
+    char buffer[4096];
     ssize_t bytesRead;
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
         if (write(STDOUT_FILENO, buffer, bytesRead) == -1) {

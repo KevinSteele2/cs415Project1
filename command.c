@@ -9,7 +9,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-
 void listDir(){
     DIR *dir = opendir(".");
     if (dir == NULL){

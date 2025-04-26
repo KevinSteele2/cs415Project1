@@ -9,6 +9,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+void fixSpacing(char *str) {
+    char *end;
+
+    while (*str == ' ') str++;
+
+    end = str + strlen(str) - 1;
+    while (end > str && *end == ' ') end--;
+
+    *(end + 1) = '\0';
+}
+
 int main(int argc, char *argv[]) {
     if (argc == 1) {
         printf("Starting pseudo-shell in interactive mode...\n");
@@ -102,15 +113,11 @@ int main(int argc, char *argv[]) {
             command_line cmd = str_filler(line, ";");
             for (int i = 0; i < cmd.num_token; i++) {
                 char *command = cmd.command_list[i];
+                trimSpaces(command);
 
                 if (strcmp(command, "ls") == 0) {
                     listDir();
                 }
-                else if(strcmp(command, "exit") == 0){
-                    free_command_line(&cmd);
-                    free(line);
-                    return EXIT_SUCCESS;
-                } 
                 else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
                 } 
@@ -118,10 +125,14 @@ int main(int argc, char *argv[]) {
                     makeDir(command + 5);
                 } 
                 else if (strncmp(command, "cd", 2) == 0) {
-                    changeDir(command + 2);
+                    char *dir = command + 2;
+                    fixSpacing(dir);
+                    changeDir(dir);
                 } 
                 else if (strncmp(command, "cp", 2) == 0) {
-                    char *src = strtok(command + 2, " ");
+                    char *args = command+2;
+                    fixSpacing(args);
+                    char *src = strtok(args, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         copyFile(src, dest);
@@ -131,7 +142,9 @@ int main(int argc, char *argv[]) {
                     }
                 } 
                 else if (strncmp(command, "mv", 2) == 0) {
-                    char *src = strtok(command + 2, " ");
+                    char *args = command + 2;
+                    fixSpacing(args);
+                    char *src = strtok(args, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         moveFile(src, dest);
@@ -141,10 +154,19 @@ int main(int argc, char *argv[]) {
                     }
                 } 
                 else if (strncmp(command, "rm", 2) == 0) {
-                    deleteFile(command + 2);
+                    char* f = command + 2;
+                    fixSpacing(f);
+                    deleteFile(f);
                 } 
                 else if (strncmp(command, "cat", 3) == 0) {
-                    displayFile(command + 3);
+                    char *f = command + 3;
+                    fixSpacing(f);
+                    displayFile(f);
+                } 
+                else if(strcmp(command, "exit") == 0){
+                    free_command_line(&cmd);
+                    free(line);
+                    return EXIT_SUCCESS;
                 } 
                 else {
                     fprintf(stdout, "Error: unrecognized command '%s'\n", command);

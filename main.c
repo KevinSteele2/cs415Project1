@@ -93,19 +93,20 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-        FILE *outputFile = fopen("output.txt", "w");
+        FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (!outputFile) {
             perror("Error creating output file");
             fclose(inputFile);
             return EXIT_FAILURE;
         }
-
+/*
         if (freopen("output.txt", "w", stdout) == NULL) {
             perror("Error redirecting stdout");
             fclose(inputFile);
             fclose(outputFile);
             return EXIT_FAILURE;
         }
+            */
 
         char *line = NULL;
         size_t len = 0;

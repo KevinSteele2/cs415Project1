@@ -96,8 +96,8 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-        FILE *outputFile = fopen("output.txt", "w");
-        if (!outputFile) {
+        FILE *outputFile = freopen("output.txt", "w", stdout);
+        if (outputFile == NULL) {
             fprintf(stderr, "Error creating output file");
             fclose(inputFile);
             return EXIT_FAILURE;

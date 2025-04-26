@@ -10,14 +10,17 @@
 #include <fcntl.h>
 
 void fixSpacing(char *str) {
-    char *end;
+    char *start = str;
+    char *end; 
 
-    while (*str == ' ') str++;
+    while (*start == ' ') start++;
 
-    end = str + strlen(str) - 1;
-    while (end > str && *end == ' ') end--;
+    end = start + strlen(start) - 1;
+    while (end > start && *end == ' ') end--;
 
     *(end + 1) = '\0';
+    memmove(str, start, strlen(start) + 1);
+
 }
 
 int main(int argc, char *argv[]) {

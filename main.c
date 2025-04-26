@@ -181,7 +181,7 @@ int main(int argc, char *argv[]) {
 
         if(outputFile == NULL){
             fprintf(stdout, "Failed to make exit file");
-            close("output.txt");
+            fclose(outputFile);
             exit(EXIT_FAILURE);
         }
 

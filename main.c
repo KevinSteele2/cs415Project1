@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
         free(line);
         fclose(inputFile);
 
-        FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        //FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if(outputFile == NULL){
             fprintf(stdout, "Failed to make exit file");
             close("output.txt");

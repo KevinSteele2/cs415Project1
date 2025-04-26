@@ -89,13 +89,13 @@ int main(int argc, char *argv[]) {
         printf("Starting pseudo-shell in file mode\n");
         FILE *inputFile = fopen(argv[2], "r");
         if (!inputFile) {
-            perror("Error opening file");
+            fprintf(stderr, "Error with input file");
             return EXIT_FAILURE;
         }
 
-        FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        FILE *outputFile = fopen("output.txt", "w");
         if (!outputFile) {
-            perror("Error creating output file");
+            fprintf(stderr, "Error creating output file");
             fclose(inputFile);
             return EXIT_FAILURE;
         }
@@ -179,15 +179,11 @@ int main(int argc, char *argv[]) {
         free(line);
         fclose(inputFile);
 
-        //FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if(outputFile == NULL){
             fprintf(stdout, "Failed to make exit file");
             close("output.txt");
             exit(EXIT_FAILURE);
         }
-
-        //freopen("/dev/tty", "w", stdout);
-        //fclose(outputFile);
 
     } 
     else {

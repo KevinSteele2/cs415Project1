@@ -3,6 +3,11 @@
 #include <string.h>
 #include "string_parser.h"
 #include "command.h"
+#include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
@@ -21,13 +26,17 @@ int main(int argc, char *argv[]) {
                 char *command = cmd.command_list[i];
                 if (strcmp(command, "ls") == 0) {
                     listDir();
-                } else if (strcmp(command, "pwd") == 0) {
+                } 
+                else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
-                } else if (strncmp(command, "mkdir", 5) == 0) {
+                } 
+                else if (strncmp(command, "mkdir", 5) == 0) {
                     makeDir(command + 5);
-                } else if (strncmp(command, "cd", 2) == 0) {
+                } 
+                else if (strncmp(command, "cd", 2) == 0) {
                     changeDir(command + 2);
-                } else if (strncmp(command, "cp", 2) == 0) {
+                } 
+                else if (strncmp(command, "cp", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
@@ -35,23 +44,28 @@ int main(int argc, char *argv[]) {
                     } else {
                         fprintf(stderr, "Error: cp needs 2 args\n");
                     }
-                } else if (strncmp(command, "mv", 2) == 0) {
+                } 
+                else if (strncmp(command, "mv", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         moveFile(src, dest);
                     } else {
-                        fprintf(stderr, "Error: mv needs 2 args\n");
+                        fprintf(stderr, "Error: mv needs two args\n");
                     }
-                } else if (strncmp(command, "rm", 2) == 0) {
+                } 
+                else if (strncmp(command, "rm", 2) == 0) {
                     deleteFile(command + 2);
-                } else if (strncmp(command, "cat", 3) == 0) {
+                } 
+                else if (strncmp(command, "cat", 3) == 0) {
                     displayFile(command + 3);
-                } else if (strcmp(command, "exit") == 0) {
+                } 
+                else if (strcmp(command, "exit") == 0) {
                     free_command_line(&cmd);
                     free(line);
                     return EXIT_SUCCESS;
-                } else {
+                } 
+                else {
                     fprintf(stderr, "Error: unrecognized command '%s'\n", command);
                 }
             }
@@ -91,37 +105,48 @@ int main(int argc, char *argv[]) {
 
                 if (strcmp(command, "ls") == 0) {
                     listDir();
-                }else if(strcmp(command, "exit") == 0){
+                }
+                else if(strcmp(command, "exit") == 0){
                     free_command_line(&cmd);
                     free(line);
                     return EXIT_SUCCESS;
-                } else if (strcmp(command, "pwd") == 0) {
+                } 
+                else if (strcmp(command, "pwd") == 0) {
                     showCurrentDir();
-                } else if (strncmp(command, "mkdir", 5) == 0) {
+                } 
+                else if (strncmp(command, "mkdir", 5) == 0) {
                     makeDir(command + 5);
-                } else if (strncmp(command, "cd", 2) == 0) {
+                } 
+                else if (strncmp(command, "cd", 2) == 0) {
                     changeDir(command + 2);
-                } else if (strncmp(command, "cp", 2) == 0) {
+                } 
+                else if (strncmp(command, "cp", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         copyFile(src, dest);
-                    } else {
+                    } 
+                    else {
                         fprintf(stdout, "Error: cp needs 2 arguments\n");
                     }
-                } else if (strncmp(command, "mv", 2) == 0) {
+                } 
+                else if (strncmp(command, "mv", 2) == 0) {
                     char *src = strtok(command + 2, " ");
                     char *dest = strtok(NULL, " ");
                     if (src && dest) {
                         moveFile(src, dest);
-                    } else {
+                    } 
+                    else {
                         fprintf(stdout, "Error: mv needs 2 arguments\n");
                     }
-                } else if (strncmp(command, "rm", 2) == 0) {
+                } 
+                else if (strncmp(command, "rm", 2) == 0) {
                     deleteFile(command + 2);
-                } else if (strncmp(command, "cat", 3) == 0) {
+                } 
+                else if (strncmp(command, "cat", 3) == 0) {
                     displayFile(command + 3);
-                } else {
+                } 
+                else {
                     fprintf(stdout, "Error: unrecognized command '%s'\n", command);
                 }
             }
@@ -131,11 +156,19 @@ int main(int argc, char *argv[]) {
         free(line);
         fclose(inputFile);
 
-        freopen("/dev/tty", "w", stdout);
-        fclose(outputFile);
+        FILE *outputFile = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if(outputFile == NULL){
+            fprintf(stdout, "Failed to make exit file");
+            close("output.txt");
+            exit(EXIT_FAILURE);
+        }
 
-    } else {
-        fprintf(stderr, "Usage: %s [-f filename]\n", argv[0]);
+        //freopen("/dev/tty", "w", stdout);
+        //fclose(outputFile);
+
+    } 
+    else {
+        fprintf(stderr, "Use: %s [-f filename] for filemode\n", argv[0]);
         return EXIT_FAILURE;
     }
 

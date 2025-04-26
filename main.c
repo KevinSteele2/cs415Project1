@@ -14,10 +14,8 @@ void fixSpacing(char *str) {
     char *end; 
 
     while (*start == ' ') start++;
-
     end = start + strlen(start) - 1;
     while (end > start && *end == ' ') end--;
-
     *(end + 1) = '\0';
     memmove(str, start, strlen(start) + 1);
 
@@ -102,14 +100,6 @@ int main(int argc, char *argv[]) {
             fclose(inputFile);
             return EXIT_FAILURE;
         }
-/*
-        if (freopen("output.txt", "w", stdout) == NULL) {
-            perror("Error redirecting stdout");
-            fclose(inputFile);
-            fclose(outputFile);
-            return EXIT_FAILURE;
-        }
-            */
 
         char *line = NULL;
         size_t len = 0;

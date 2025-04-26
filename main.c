@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
                     if (src && dest) {
                         copyFile(src, dest);
                     } else {
-                        fprintf(stderr, "Error: cp needs 2 args\n");
+                        fprintf(stdout, "Error: cp needs 2 args\n");
                     }
                 } 
                 else if (strncmp(command, "mv", 2) == 0) {
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
                     if (src && dest) {
                         moveFile(src, dest);
                     } else {
-                        fprintf(stderr, "Error: mv needs two args\n");
+                        fprintf(stdout, "Error: mv needs two args\n");
                     }
                 } 
                 else if (strncmp(command, "rm", 2) == 0) {
@@ -90,13 +90,13 @@ int main(int argc, char *argv[]) {
         printf("Starting pseudo-shell in file mode\n");
         FILE *inputFile = fopen(argv[2], "r");
         if (!inputFile) {
-            fprintf(stderr, "Error with input file");
+            fprintf(stdout, "Error with input file");
             return EXIT_FAILURE;
         }
 
         FILE *outputFile = freopen("output.txt", "w", stdout);
         if (outputFile == NULL) {
-            fprintf(stderr, "Error creating output file");
+            fprintf(stdout, "Error creating output file");
             fclose(inputFile);
             return EXIT_FAILURE;
         }
@@ -180,7 +180,7 @@ int main(int argc, char *argv[]) {
 
     } 
     else {
-        fprintf(stderr, "Use: %s [-f filename] for filemode\n", argv[0]);
+        fprintf(stdout, "Use: %s [-f filename] for filemode\n", argv[0]);
         return EXIT_FAILURE;
     }
 
